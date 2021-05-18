@@ -35,7 +35,8 @@ public class MainHistory extends AppCompatActivity
     private ListView listView;
     private TextView countHistoryText, posId;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener()
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener()
     {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item)

@@ -72,8 +72,7 @@ public class MainActivity extends AppCompatActivity
         listview = (ListView) findViewById(R.id.listView);
         countText = (TextView)findViewById(R.id.countText);
 
-        if (items == null)
-        {
+        if (items == null) {
             items = new ArrayList<>();
         }
 
@@ -83,13 +82,15 @@ public class MainActivity extends AppCompatActivity
 
         Calendar cal = Calendar.getInstance();
 
+        // N즉 아직 끝나지 않은 Task들을 띄워라
         myRef.orderByChild("flag").equalTo("N").addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
                 items.clear();
-
+                
+                // 새로운 Task를 입력할 경우 Subject는 빈칸으로 하고 추가
                 if (dataSnapshot.getChildrenCount() == 0)
                 {
                     item = new ListViewBtnItem();
@@ -102,16 +103,27 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
+                    //item은 각각의 Task를 의미하고 items는 모든 item들의 집합
                     item = new ListViewBtnItem();
                     for (DataSnapshot child: dataSnapshot.getChildren())
                     {
                         item = new ListViewBtnItem();
 
-                        item.setSubject(dataSnapshot.child(child.getKey()).child("subject").getValue(String.class));
-                        item.setMemo(dataSnapshot.child(child.getKey()).child("memo").getValue(String.class));
-                        item.setDate(dataSnapshot.child(child.getKey()).child("date").getValue(String.class));
-                        item.setTime(dataSnapshot.child(child.getKey()).child("time").getValue(String.class));
-                        item.setFlag(dataSnapshot.child(child.getKey()).child("flag").getValue(String.class));
+                        //파이어베이스에 저장된 Subject 읽어오기
+                        item.setSubject(dataSnapshot.child(child.getKey()).child("subject")
+                                .getValue(String.class));
+                        //파이어베이스에 저장된 memo 읽어오기
+                        item.setMemo(dataSnapshot.child(child.getKey()).child("memo")
+                                .getValue(String.class));
+                        //파이어베이스에 저장된 data 즉 날짜(년도, 월, 일) 읽어오기
+                        item.setDate(dataSnapshot.child(child.getKey()).child("date")
+                                .getValue(String.class));
+                        //파이어베이스에 저장된 time 즉 시간(시, 분) 읽어오기
+                        item.setTime(dataSnapshot.child(child.getKey()).child("time")
+                                .getValue(String.class));
+                        //파이어베이스에 저장된 flag 즉 N이나 Y를 읽어오기
+                        item.setFlag(dataSnapshot.child(child.getKey()).child("flag")
+                                .getValue(String.class));
                         item.setPosition(child.getKey());
 
                         items.add(item);
@@ -121,7 +133,8 @@ public class MainActivity extends AppCompatActivity
 
                     listview.setAdapter(adapter);
 
-                    countText.setText(dataSnapshot.getChildrenCount() + " items due today");
+                    //item들의 개수를 새서 총 몇개 의 Task가 있다고 출력
+                    countText.setText(dataSnapshot.getChildrenCount() + " Tasks to Do");
                 }
             }
 

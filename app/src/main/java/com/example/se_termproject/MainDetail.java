@@ -44,8 +44,6 @@ public class MainDetail extends AppCompatActivity
     private String checkFlag;
     private Intent intent;
 
-    private String year, month, day, hour, min;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -117,7 +115,8 @@ public class MainDetail extends AppCompatActivity
 
     public void mOnDateClick(View v)
     {
-        DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener()
+        DatePickerDialog dialog = new DatePickerDialog(this, android.R.style
+                .Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener()
         {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int date) {
@@ -148,7 +147,8 @@ public class MainDetail extends AppCompatActivity
 
     public void mOnTimeClick(View v)
     {
-        TimePickerDialog dialog = new TimePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog dialog = new TimePickerDialog(this, android.R.style
+                .Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int min)
             {
