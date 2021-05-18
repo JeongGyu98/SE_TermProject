@@ -159,7 +159,7 @@ public class MainDetail extends AppCompatActivity
 
                 timeText.setText(formatted);
             }
-        }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
+        }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), true);
 
         dialog.show();
     }
