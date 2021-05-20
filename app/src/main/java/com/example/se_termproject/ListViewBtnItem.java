@@ -15,8 +15,8 @@ public class ListViewBtnItem
 
     public ListViewBtnItem() { }
 
-    public void ListViewBtnItem(String position, String subject, String date, String memo, String flag)
-    {
+    public void ListViewBtnItem(String position, String subject,
+                                String date, String memo, String flag) {
         this.position = position;
         this.subject = subject;
         this.date = date;

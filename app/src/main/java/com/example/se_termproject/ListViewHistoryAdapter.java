@@ -28,20 +28,17 @@ public class ListViewHistoryAdapter extends ArrayAdapter
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
 
-    ListViewHistoryAdapter(Context context, int resource, ArrayList<ListViewBtnItem> list)
-    {
+    ListViewHistoryAdapter(Context context, int resource, ArrayList<ListViewBtnItem> list) {
         super(context, resource, list) ;
         this.resourceId = resource ;
         this.items = list;
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent)
-    {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Context context = parent.getContext();
 
-        if (convertView == null)
-        {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.after_layout, parent, false);
         }

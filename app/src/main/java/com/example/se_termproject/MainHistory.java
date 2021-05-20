@@ -36,13 +36,10 @@ public class MainHistory extends AppCompatActivity
     private TextView countHistoryText, posId;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener()
-    {
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item)
-        {
-            switch (item.getItemId())
-            {
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
                 case R.id.navigation_hide:
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
 
@@ -57,8 +54,7 @@ public class MainHistory extends AppCompatActivity
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_main);
 
@@ -72,17 +68,14 @@ public class MainHistory extends AppCompatActivity
         countHistoryText = (TextView)findViewById(R.id.countHistoryText);
         posId = (TextView)findViewById(R.id.posHistoryId);
 
-        myRef.orderByChild("flag").equalTo("Y").addValueEventListener(new ValueEventListener()
-        {
+        myRef.orderByChild("flag").equalTo("Y").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 items.clear();
 
                 item = new ListViewBtnItem();
 
-                for (DataSnapshot child: dataSnapshot.getChildren())
-                {
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
                     item = new ListViewBtnItem();
 
                     item.setSubject(dataSnapshot.child(child.getKey()).child("subject").getValue(String.class));
@@ -100,17 +93,12 @@ public class MainHistory extends AppCompatActivity
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-            {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent = new Intent(getApplicationContext(), MainDetail.class);
 
                 intent.putExtra("position", items.get(position).getPosition());

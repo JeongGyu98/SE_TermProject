@@ -40,13 +40,11 @@ public class MainActivity extends AppCompatActivity
     private TextView countText;
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener()
-    {
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item)
-        {
-            switch (item.getItemId())
-            {
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
                 case R.id.navigation_home:
                     Intent intent = new Intent(getApplicationContext(), MainHistory.class);
                     startActivity(intent);
@@ -57,8 +55,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
@@ -83,16 +80,13 @@ public class MainActivity extends AppCompatActivity
         Calendar cal = Calendar.getInstance();
 
         // N즉 아직 끝나지 않은 Task들을 띄워라
-        myRef.orderByChild("flag").equalTo("N").addValueEventListener(new ValueEventListener()
-        {
+        myRef.orderByChild("flag").equalTo("N").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 items.clear();
                 
                 // 새로운 Task를 입력할 경우 Subject는 빈칸으로 하고 추가
-                if (dataSnapshot.getChildrenCount() == 0)
-                {
+                if (dataSnapshot.getChildrenCount() == 0) {
                     item = new ListViewBtnItem();
                     item.setSubject("");
                     items.add(item);
@@ -101,12 +95,10 @@ public class MainActivity extends AppCompatActivity
 
                     listview.setAdapter(adapter);
                 }
-                else
-                {
+                else {
                     //item은 각각의 Task를 의미하고 items는 모든 item들의 집합
                     item = new ListViewBtnItem();
-                    for (DataSnapshot child: dataSnapshot.getChildren())
-                    {
+                    for (DataSnapshot child: dataSnapshot.getChildren()) {
                         item = new ListViewBtnItem();
 
                         //파이어베이스에 저장된 Subject 읽어오기
