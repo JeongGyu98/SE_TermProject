@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,8 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class MainDetail extends AppCompatActivity
-{
+public class MainDetail extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
 
@@ -43,29 +44,29 @@ public class MainDetail extends AppCompatActivity
     private String position;
     private String checkFlag;
     private Intent intent;
+    private Button Delete, Done;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_main);
 
-        Intent intent = getIntent();
+        intent = getIntent();
 
         position = intent.getExtras().getString("position");
         checkFlag = intent.getExtras().getString("checkFlag");
         cal = Calendar.getInstance();
 
+        Done = (Button) findViewById(R.id.Done);
+        Delete = (Button) findViewById(R.id.Delete);
         subjectEdit = (EditText)findViewById(R.id.subjectEdit);
         dateText = (TextView)findViewById(R.id.date);
         timeText = (TextView)findViewById(R.id.time);
         memo = (TextView)findViewById(R.id.memo);
 
-        myRef.addValueEventListener(new ValueEventListener()
-        {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String tmp = dataSnapshot.child(position).child("subject").getValue(String.class);
                 String date = dataSnapshot.child(position).child("date").getValue(String.class);
                 String time = dataSnapshot.child(position).child("time").getValue(String.class);
@@ -78,39 +79,57 @@ public class MainDetail extends AppCompatActivity
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
 
+        Done.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Map<String, Object> taskMap = new HashMap<>();
+
+                taskMap.put("subject", subjectEdit.getText().toString());
+                taskMap.put("date", dateText.getText().toString());
+                taskMap.put("time", timeText.getText().toString());
+                taskMap.put("memo", memo.getText().toString());
+
+                myRef.child(position).updateChildren(taskMap);
+
+                switch (checkFlag) {
+                    case "Main":
+                        intent = new Intent(getApplicationContext(), MainActivity.class);
+                        break;
+                    case "History":
+                        intent = new Intent(getApplicationContext(), MainHistory.class);
+                        break;
+                    default:
+                        break;
+                }
+
+                startActivity(intent);
+
+                finish();
             }
         });
-    }
 
-    public void onClick(View v)
-    {
-        Map<String, Object> taskMap = new HashMap<>();
+        Delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myRef.child(position).setValue(null);
+                switch (checkFlag) {
+                    case "Main":
+                        intent = new Intent(getApplicationContext(), MainActivity.class);
+                        break;
+                    case "History":
+                        intent = new Intent(getApplicationContext(), MainHistory.class);
+                        break;
+                    default:
+                        break;
+                }
+                startActivity(intent);
 
-        taskMap.put("subject", subjectEdit.getText().toString());
-        taskMap.put("date", dateText.getText().toString());
-        taskMap.put("time", timeText.getText().toString());
-        taskMap.put("memo", memo.getText().toString());
-
-        myRef.child(position).updateChildren(taskMap);
-
-        switch (checkFlag)
-        {
-            case "Main":
-                intent = new Intent(getApplicationContext(),MainActivity.class);
-                break;
-            case "History":
-                intent = new Intent(getApplicationContext(),MainHistory.class);
-                break;
-            default:
-                    break;
-        }
-
-        startActivity(intent);
-
-        finish();
+                finish();
+            }
+        });
     }
 
     public void mOnDateClick(View v)
