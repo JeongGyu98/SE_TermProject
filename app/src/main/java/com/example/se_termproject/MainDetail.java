@@ -173,9 +173,11 @@ public class MainDetail extends AppCompatActivity {
             {
 
                 int time=(min * 60 + hour * 60 * 60) * 1000;
+                System.out.println(time);
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 String formatted = format.format(time);
 
+                System.out.println("Formatted" + formatted);
                 timeText.setText(formatted);
             }
         }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), true);
