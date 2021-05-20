@@ -18,19 +18,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ListViewHistoryAdapter extends ArrayAdapter
-{
+public class ListViewHistoryAdapter extends ArrayAdapter {
     private ArrayList<ListViewBtnItem> items;
     private TextView subjectText, timeDateHistoryText;
     private CheckBox checkBox;
-    int resourceId ;
+    int resourceId;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
 
     ListViewHistoryAdapter(Context context, int resource, ArrayList<ListViewBtnItem> list) {
-        super(context, resource, list) ;
-        this.resourceId = resource ;
+        super(context, resource, list);
+        this.resourceId = resource;
         this.items = list;
     }
 
@@ -43,9 +42,9 @@ public class ListViewHistoryAdapter extends ArrayAdapter
             convertView = inflater.inflate(R.layout.after_layout, parent, false);
         }
 
-        subjectText = (TextView)convertView.findViewById(R.id.subjectHistoryText);
-        timeDateHistoryText = (TextView)convertView.findViewById(R.id.timeDateHistoryText);
-        checkBox = (CheckBox)convertView.findViewById(R.id.checkboxHistory);
+        subjectText = (TextView) convertView.findViewById(R.id.subjectHistoryText);
+        timeDateHistoryText = (TextView) convertView.findViewById(R.id.timeDateHistoryText);
+        checkBox = (CheckBox) convertView.findViewById(R.id.checkboxHistory);
 
         subjectText.setFocusable(false);
         timeDateHistoryText.setFocusable(false);
@@ -62,22 +61,16 @@ public class ListViewHistoryAdapter extends ArrayAdapter
 
         String getTime = sdf.format(date);
 
-        if(getTime.equals(items.get(position).getDate()))
-        {
+        if (getTime.equals(items.get(position).getDate())) {
             timeDateHistoryText.setText(items.get(position).getTime());
-        }
-        else
-        {
+        } else {
             timeDateHistoryText.setText(items.get(position).getDate());
         }
 
-        checkBox.setOnClickListener(new View.OnClickListener()
-        {
+        checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                if(checkBox.isChecked() == false)
-                {
+            public void onClick(View view) {
+                if (checkBox.isChecked() == false) {
                     Map<String, Object> taskMap = new HashMap<>();
                     taskMap.put("flag", "N");
                     myRef.child(items.get(position).getPosition()).updateChildren(taskMap);

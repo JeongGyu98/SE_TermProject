@@ -23,8 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MainHistory extends AppCompatActivity
-{
+public class MainHistory extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
 
@@ -41,7 +40,7 @@ public class MainHistory extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_hide:
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
                     startActivity(intent);
 
@@ -64,9 +63,9 @@ public class MainHistory extends AppCompatActivity
         context = getApplicationContext();
         items = new ArrayList<>();
 
-        listView = (ListView)findViewById(R.id.listHistoryView);
-        countHistoryText = (TextView)findViewById(R.id.countHistoryText);
-        posId = (TextView)findViewById(R.id.posHistoryId);
+        listView = (ListView) findViewById(R.id.listHistoryView);
+        countHistoryText = (TextView) findViewById(R.id.countHistoryText);
+        posId = (TextView) findViewById(R.id.posHistoryId);
 
         myRef.orderByChild("flag").equalTo("Y").addValueEventListener(new ValueEventListener() {
             @Override
@@ -75,7 +74,7 @@ public class MainHistory extends AppCompatActivity
 
                 item = new ListViewBtnItem();
 
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
                     item = new ListViewBtnItem();
 
                     item.setSubject(dataSnapshot.child(child.getKey()).child("subject").getValue(String.class));
@@ -93,7 +92,8 @@ public class MainHistory extends AppCompatActivity
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

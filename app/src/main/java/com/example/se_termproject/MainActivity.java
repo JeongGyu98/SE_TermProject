@@ -25,13 +25,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     private ListViewBtnAdapter adapter;
     private ListViewBtnItem item;
     private ArrayList<ListViewBtnItem> items;
@@ -72,21 +72,21 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         context = getApplicationContext();
         listview = (ListView) findViewById(R.id.listView);
-        countText = (TextView)findViewById(R.id.countText);
-        btnLogout = (Button)findViewById(R.id.btn_logout);
-        btnRevoke = (Button)findViewById(R.id.btn_revoke);
+        countText = (TextView) findViewById(R.id.countText);
+        btnLogout = (Button) findViewById(R.id.btn_logout);
+        btnRevoke = (Button) findViewById(R.id.btn_revoke);
 
-        btnLogout.setOnClickListener(new View.OnClickListener(){
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 signOut();
                 finishAffinity();
             }
         });
 
-        btnRevoke.setOnClickListener(new View.OnClickListener(){
+        btnRevoke.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 revokeAccess();
                 finishAffinity();
             }
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 items.clear();
-                
+
                 // 새로운 Task를 입력할 경우 Subject는 빈칸으로 하고 추가
                 if (dataSnapshot.getChildrenCount() == 0) {
                     item = new ListViewBtnItem();
@@ -117,11 +117,10 @@ public class MainActivity extends AppCompatActivity
                     adapter = new ListViewBtnAdapter(context, R.layout.before_layout, items);
 
                     listview.setAdapter(adapter);
-                }
-                else {
+                } else {
                     //item은 각각의 Task를 의미하고 items는 모든 item들의 집합
                     item = new ListViewBtnItem();
-                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
                         item = new ListViewBtnItem();
 
                         //파이어베이스에 저장된 Subject 읽어오기
@@ -154,17 +153,14 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-            {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent = new Intent(getApplicationContext(), MainDetail.class);
                 intent.putExtra("position", items.get(position).getPosition());
                 intent.putExtra("checkFlag", "Main");
@@ -174,7 +170,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void signOut(){
+    private void signOut() {
         FirebaseAuth.getInstance().signOut();
     }
 

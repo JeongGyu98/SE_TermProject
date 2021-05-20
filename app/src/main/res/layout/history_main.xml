@@ -28,36 +28,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="To Do List"
                     android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:text="To Do List" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/countHistoryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:text="Finished Tasks" />
             </LinearLayout>
         </LinearLayout>
+
         <ListView
             android:id="@+id/listHistoryView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusable="false">
-        </ListView>
+            android:focusable="false"></ListView>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

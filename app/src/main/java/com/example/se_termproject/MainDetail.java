@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,10 +60,10 @@ public class MainDetail extends AppCompatActivity {
 
         Done = (Button) findViewById(R.id.Done);
         Delete = (Button) findViewById(R.id.Delete);
-        subjectEdit = (EditText)findViewById(R.id.subjectEdit);
-        dateText = (TextView)findViewById(R.id.date);
-        timeText = (TextView)findViewById(R.id.time);
-        memo = (TextView)findViewById(R.id.memo);
+        subjectEdit = (EditText) findViewById(R.id.subjectEdit);
+        dateText = (TextView) findViewById(R.id.date);
+        timeText = (TextView) findViewById(R.id.time);
+        memo = (TextView) findViewById(R.id.memo);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -79,12 +80,13 @@ public class MainDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         });
 
-        Done.setOnClickListener(new View.OnClickListener(){
+        Done.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Map<String, Object> taskMap = new HashMap<>();
 
                 taskMap.put("subject", subjectEdit.getText().toString());
@@ -132,30 +134,21 @@ public class MainDetail extends AppCompatActivity {
         });
     }
 
-    public void mOnDateClick(View v)
-    {
+    public void mOnDateClick(View v) {
         DatePickerDialog dialog = new DatePickerDialog(this, android.R.style
-                .Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener()
-        {
+                .Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int date) {
 
-                String msg="";
-                if(month < 10)
-                {
-                    msg = String.format("%d-0%d-%d", year, month+1, date);
-                }
-                else if(date < 10)
-                {
-                    msg = String.format("%d-%d-0%d", year, month+1, date);
-                }
-                else if(date < 10 && month < 10)
-                {
-                    msg = String.format("%d-0%d-0%d", year, month+1, date);
-                }
-                else
-                {
-                    msg = String.format("%d-%d-%d", year, month+1, date);
+                String msg = "";
+                if (month < 10) {
+                    msg = String.format("%d-0%d-%d", year, month + 1, date);
+                } else if (date < 10) {
+                    msg = String.format("%d-%d-0%d", year, month + 1, date);
+                } else if (date < 10 && month < 10) {
+                    msg = String.format("%d-0%d-0%d", year, month + 1, date);
+                } else {
+                    msg = String.format("%d-%d-%d", year, month + 1, date);
                 }
                 dateText.setText(msg);
             }
@@ -164,15 +157,13 @@ public class MainDetail extends AppCompatActivity {
         dialog.show();
     }
 
-    public void mOnTimeClick(View v)
-    {
+    public void mOnTimeClick(View v) {
         TimePickerDialog dialog = new TimePickerDialog(this, android.R.style
                 .Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void onTimeSet(TimePicker timePicker, int hour, int min)
-            {
+            public void onTimeSet(TimePicker timePicker, int hour, int min) {
 
-                int time=(min * 60 + hour * 60 * 60) * 1000;
+                int time = (min * 60 + hour * 60 * 60) * 1000;
                 System.out.println(time);
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 String formatted = format.format(time);

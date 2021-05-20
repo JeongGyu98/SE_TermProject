@@ -24,8 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ListViewBtnAdapter extends ArrayAdapter
-{
+public class ListViewBtnAdapter extends ArrayAdapter {
     private ArrayList<ListViewBtnItem> items;
     private boolean buttonFlag = false;
     private Button button;
@@ -38,7 +37,7 @@ public class ListViewBtnAdapter extends ArrayAdapter
     private TextView posId;
     private TextView timeDateText, subjectText;
 
-    int resourceId ;
+    int resourceId;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
@@ -46,13 +45,13 @@ public class ListViewBtnAdapter extends ArrayAdapter
     ListViewBtnAdapter(Context context, int resource, ArrayList<ListViewBtnItem> list) {
         super(context, resource, list);
 
-        this.resourceId = resource ;
+        this.resourceId = resource;
         this.items = list;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final int pos = position ;
+        final int pos = position;
         final Context context = parent.getContext();
 
         if (convertView == null) {
@@ -62,18 +61,18 @@ public class ListViewBtnAdapter extends ArrayAdapter
         }
 
         editText = (EditText) convertView.findViewById(R.id.editText);
-        button = (Button)convertView.findViewById(R.id.plus_btn);
-        imageView = (ImageView)convertView.findViewById(R.id.infoBtn);
-        listView = (ListView)convertView.findViewById(R.id.listView);
-        posId = (TextView)convertView.findViewById(R.id.posId);
-        checkBox = (CheckBox)convertView.findViewById(R.id.checkbox);
-        subjectText = (TextView)convertView.findViewById(R.id.subjectText);
-        timeDateText = (TextView)convertView.findViewById(R.id.timeDateText);
+        button = (Button) convertView.findViewById(R.id.plus_btn);
+        imageView = (ImageView) convertView.findViewById(R.id.infoBtn);
+        listView = (ListView) convertView.findViewById(R.id.listView);
+        posId = (TextView) convertView.findViewById(R.id.posId);
+        checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+        subjectText = (TextView) convertView.findViewById(R.id.subjectText);
+        timeDateText = (TextView) convertView.findViewById(R.id.timeDateText);
 
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkBox.isChecked() == false) {
+                if (checkBox.isChecked() == false) {
                     Map<String, Object> taskMap = new HashMap<>();
                     taskMap.put("flag", "Y");
                     myRef.child(items.get(position).getPosition()).updateChildren(taskMap);
@@ -81,8 +80,8 @@ public class ListViewBtnAdapter extends ArrayAdapter
             }
         });
 
-        if(flag == false) {
-            if(items != null && flagInt != 0) {
+        if (flag == false) {
+            if (items != null && flagInt != 0) {
                 editText.setClickable(false);
                 editText.setEnabled(false);
                 editText.setFocusable(false);
@@ -108,16 +107,15 @@ public class ListViewBtnAdapter extends ArrayAdapter
 
                 String getTime = sdf.format(date);
 
-                if(getTime.equals(items.get(position).getDate())) {
+                if (getTime.equals(items.get(position).getDate())) {
                     timeDateText.setText(items.get(position).getTime());
-                }
-                else {
+                } else {
                     timeDateText.setText(items.get(position).getDate());
                 }
 
                 flagInt++;
             }
-            if(flagInt == items.size()+1) {
+            if (flagInt == items.size() + 1) {
                 ListViewBtnItem item = new ListViewBtnItem();
                 item.setSubject("");
                 items.add(item);
@@ -127,7 +125,7 @@ public class ListViewBtnAdapter extends ArrayAdapter
                 flagInt = 0;
             }
 
-            if(items.get(position).getSubject().equals("")) {
+            if (items.get(position).getSubject().equals("")) {
                 button.setVisibility(View.VISIBLE);
                 checkBox.setVisibility(View.INVISIBLE);
                 imageView.setVisibility(View.INVISIBLE);
@@ -135,18 +133,17 @@ public class ListViewBtnAdapter extends ArrayAdapter
 
                 flag = true;
             }
-        }
-        else {
+        } else {
             flag = false;
         }
 
-        final Button button1 = (Button)convertView.findViewById(R.id.plus_btn);
+        final Button button1 = (Button) convertView.findViewById(R.id.plus_btn);
 
         final View finalConvertView = convertView;
         button1.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                if(buttonFlag == false) {
-                    InputMethodManager imm = (InputMethodManager)context
+                if (buttonFlag == false) {
+                    InputMethodManager imm = (InputMethodManager) context
                             .getSystemService(Context.INPUT_METHOD_SERVICE);
 
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
@@ -162,10 +159,8 @@ public class ListViewBtnAdapter extends ArrayAdapter
                     button.setText("OK");
 
                     buttonFlag = true;
-                }
-                else if(buttonFlag == true)
-                {
-                    InputMethodManager immhide = (InputMethodManager)context
+                } else if (buttonFlag == true) {
+                    InputMethodManager immhide = (InputMethodManager) context
                             .getSystemService(Context.INPUT_METHOD_SERVICE);
 
                     immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -204,11 +199,11 @@ public class ListViewBtnAdapter extends ArrayAdapter
                     item.setFlag("N");
                     item.setMemo("");
 
-                    items.set(items.size()-1, item);
+                    items.set(items.size() - 1, item);
 
                     myRef.push().setValue(item);
 
-                    Toast.makeText(context, items.get(items.size()-1).getSubject(),
+                    Toast.makeText(context, items.get(items.size() - 1).getSubject(),
                             Toast.LENGTH_LONG).show();
 
                     item.setSubject("a");

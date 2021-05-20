@@ -50,9 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         // Configure Google Sign In
         GoogleSignInOptions gso =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END config_signin]
@@ -67,9 +67,9 @@ public class LoginActivity extends AppCompatActivity {
 //        }
         // [END initialize_auth]
 
-        signInButton.setOnClickListener(new View.OnClickListener(){
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 signIn();
             }
         });
@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
     // [END signin]
 
     private void updateUI(FirebaseUser user) {
-        if(user != null){
+        if (user != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
