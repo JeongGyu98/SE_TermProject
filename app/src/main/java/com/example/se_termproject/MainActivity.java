@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity
     private Context context;
     private TextView countText;
     private FirebaseAuth mAuth;
-    Button btnLogout;
+    private Button btnLogout;
+    private Button btnRevoke;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -73,11 +74,20 @@ public class MainActivity extends AppCompatActivity
         listview = (ListView) findViewById(R.id.listView);
         countText = (TextView)findViewById(R.id.countText);
         btnLogout = (Button)findViewById(R.id.btn_logout);
+        btnRevoke = (Button)findViewById(R.id.btn_revoke);
 
         btnLogout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 signOut();
+                finishAffinity();
+            }
+        });
+
+        btnRevoke.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                revokeAccess();
                 finishAffinity();
             }
         });
@@ -167,4 +177,9 @@ public class MainActivity extends AppCompatActivity
     private void signOut(){
         FirebaseAuth.getInstance().signOut();
     }
+
+    private void revokeAccess() {
+        mAuth.getCurrentUser().delete();
+    }
 }
+
