@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity
     private String subject;
     private Context context;
     private TextView countText;
+    private FirebaseAuth mAuth;
+    Button btnLogout;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -65,9 +68,19 @@ public class MainActivity extends AppCompatActivity
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        mAuth = FirebaseAuth.getInstance();
         context = getApplicationContext();
         listview = (ListView) findViewById(R.id.listView);
         countText = (TextView)findViewById(R.id.countText);
+        btnLogout = (Button)findViewById(R.id.btn_logout);
+
+        btnLogout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                signOut();
+                finishAffinity();
+            }
+        });
 
         if (items == null) {
             items = new ArrayList<>();
@@ -149,5 +162,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+    }
+
+    private void signOut(){
+        FirebaseAuth.getInstance().signOut();
     }
 }
