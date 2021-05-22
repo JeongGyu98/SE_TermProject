@@ -135,8 +135,7 @@ public class MainDetail extends AppCompatActivity {
     }
 
     public void mOnDateClick(View v) {
-        DatePickerDialog dialog = new DatePickerDialog(this, android.R.style
-                .Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int date) {
 
@@ -162,16 +161,15 @@ public class MainDetail extends AppCompatActivity {
                 .Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-
-                int time = (min * 60 + hour * 60 * 60) * 1000;
-                System.out.println(time);
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                String formatted = format.format(time);
-
-                System.out.println("Formatted" + formatted);
-                timeText.setText(formatted);
+                String h;
+                if(hour < 10)
+                    h = "0" + hour;
+                else
+                    h = Integer.toString(hour);
+                String time = h + ":" + min;
+                timeText.setText(time);
             }
-        }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), true);
+        }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
 
         dialog.show();
     }
