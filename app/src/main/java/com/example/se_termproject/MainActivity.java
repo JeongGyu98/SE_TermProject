@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private float totalTask;
     private float completedTask;
     private float uncompletedTask;
+    int percent;
 
     private Button btnLogout;
 
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,14 +103,16 @@ public class MainActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
 
 
+
+
         //전체 task 개수 구하
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 totalTask = snapshot.getChildrenCount();
 
-                int percent = (int) cal(totalTask, completedTask);
-                achievementText.setText(percent + "%");
+                percent = (int) cal(totalTask, completedTask);
+                achievementText.setText("Achievement percentage: " + percent + "%");
 
             }
 
@@ -121,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 completedTask = snapshot.getChildrenCount();
+
             }
 
             @Override
@@ -220,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
             return (complete/total) * 100;
         }
     }
-
 
 }
 
