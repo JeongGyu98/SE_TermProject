@@ -39,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
     private String subject;
     private Context context;
     private TextView countText;
-    private FirebaseAuth mAuth;
-    private Button btnLogout;
-    private Button btnRevoke;
+    private TextView achievementText;
 
+
+    private float totalTask;
+    private float completedTask;
+    private float uncompletedTask;
+
+    private Button btnLogout;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -69,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        mAuth = FirebaseAuth.getInstance();
         context = getApplicationContext();
         listview = (ListView) findViewById(R.id.listView);
         countText = (TextView) findViewById(R.id.countText);
+        achievementText = (TextView)findViewById(R.id.achievementText);
         btnLogout = (Button) findViewById(R.id.btn_logout);
-        btnRevoke = (Button) findViewById(R.id.btn_revoke);
+
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +88,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnRevoke.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                revokeAccess();
-                finishAffinity();
-            }
-        });
 
         if (items == null) {
             items = new ArrayList<>();
@@ -102,11 +99,44 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar cal = Calendar.getInstance();
 
+
+        //전체 task 개수 구하
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                totalTask = snapshot.getChildrenCount();
+
+                int percent = (int) cal(totalTask, completedTask);
+                achievementText.setText(percent + "%");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        myRef.orderByChild("flag").equalTo("Y").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                completedTask = snapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         // N즉 아직 끝나지 않은 Task들을 띄워라
         myRef.orderByChild("flag").equalTo("N").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 items.clear();
+
+                //끝나지않은 task 의 개수
+                uncompletedTask = dataSnapshot.getChildrenCount();
 
                 // 새로운 Task를 입력할 경우 Subject는 빈칸으로 하고 추가
                 if (dataSnapshot.getChildrenCount() == 0) {
@@ -147,8 +177,10 @@ public class MainActivity extends AppCompatActivity {
 
                     listview.setAdapter(adapter);
 
+
                     //item들의 개수를 새서 총 몇개 의 Task가 있다고 출력
-                    countText.setText(dataSnapshot.getChildrenCount() + " Tasks to Do");
+                    countText.setText((int)uncompletedTask + " Tasks to Do");
+
                 }
             }
 
@@ -168,14 +200,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
     }
 
     private void signOut() {
         FirebaseAuth.getInstance().signOut();
     }
 
-    private void revokeAccess() {
-        mAuth.getCurrentUser().delete();
+    private float cal(float total, float complete){
+        if(total == 0){
+            return 0;
+        }
+        else if(complete == 0){
+            return 0;
+        }
+        else{
+            return (complete/total) * 100;
+        }
     }
+
+
 }
 

@@ -46,6 +46,7 @@
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:text="0 Tasks to Do" />
+
             </LinearLayout>
 
             <Button
@@ -55,14 +56,14 @@
                 android:layout_gravity="center_vertical"
                 android:text="로그아웃" />
 
-            <Button
-                android:id="@+id/btn_revoke"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="회원탈퇴" />
-
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/achievementText"
+            android:layout_margin="16dp"
+            android:layout_gravity="center_horizontal"/>
 
         <ListView
             android:id="@+id/listView"
@@ -70,6 +71,7 @@
             android:layout_height="match_parent">
 
         </ListView>
+
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
