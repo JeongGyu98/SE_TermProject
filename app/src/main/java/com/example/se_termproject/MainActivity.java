@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
     }
 
-    private float cal(float total, float complete){
+    public float cal(float total, float complete){
         if(total == 0){
             return 0;
         }
